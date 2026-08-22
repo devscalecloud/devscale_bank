@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevScale Bank — Sign Up</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --navy-dark:    #0f1c30;
+            --navy:         #16294a;
+            --navy-mid:     #1e355c;
+            --navy-light:   #2c4a7c;
+            --gold:         #b8923f;
+            --gold-light:   #cba85a;
+            --success:      #059669;
+            --success-bg:   #ecfdf5;
+            --success-border:#a7f3d0;
+            --white:        #ffffff;
+            --gray-50:      #f8fafc;
+            --gray-100:     #f1f5f9;
+            --gray-200:     #e2e8f0;
+            --gray-300:     #cbd5e1;
+            --gray-400:     #94a3b8;
+            --gray-500:     #64748b;
+            --gray-600:     #475569;
+            --gray-700:     #334155;
+            --gray-800:     #1e293b;
+            --error:        #dc2626;
+            --error-bg:     #fef2f2;
+            --error-border: #fecaca;
+            --font:         'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        html, body { height: 100%; }
+
+        body {
+            font-family: var(--font);
+            background: var(--gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 44px 40px;
+            box-shadow: 0 1px 3px rgba(15,23,42,0.06), 0 12px 32px rgba(15,23,42,0.08);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 11px;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--gold);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: var(--navy-dark);
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--navy-dark);
+            letter-spacing: -0.4px;
+        }
+
+        .logo-text span {
+            color: var(--gold);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 6px;
+            letter-spacing: -0.4px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: var(--gray-500);
+            line-height: 1.5;
+        }
+
+        /* Success message */
+        .success-message {
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+        }
+
+        .success-icon svg {
+            width: 26px;
+            height: 26px;
+            fill: var(--success);
+        }
+
+        .success-message h2 {
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 8px;
+        }
+
+        .success-message p {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        /* Error message */
+        .error {
+            background: var(--error-bg);
+            border: 1px solid var(--error-border);
+            border-radius: 8px;
+            padding: 13px 15px;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .error svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--error);
+            flex-shrink: 0;
+        }
+
+        .error-text {
+            color: #991b1b;
+            font-size: 13.5px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 100%;
+            height: 44px;
+            padding: 0 14px;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 14.5px;
+            color: var(--gray-800);
+            background: var(--white);
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+            outline: none;
+        }
+
+        input::placeholder { color: var(--gray-400); }
+
+        input:focus {
+            border-color: var(--navy-light);
+            box-shadow: 0 0 0 3px rgba(30,53,92,0.1);
+        }
+
+        .btn {
+            width: 100%;
+            height: 46px;
+            background: var(--navy);
+            border: none;
+            border-radius: 8px;
+            color: var(--white);
+            font-family: var(--font);
+            font-size: 14.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s ease;
+            letter-spacing: 0.1px;
+        }
+
+        .btn:hover { background: var(--navy-mid); }
+        .btn:active { background: var(--navy-dark); }
+
+        .footer {
+            text-align: center;
+            margin-top: 22px;
+            padding-top: 22px;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .footer p {
+            font-size: 13.5px;
+            color: var(--gray-600);
+        }
+
+        .footer a {
+            color: var(--navy);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover { text-decoration: underline; }
+
+        .password-hint {
+            font-size: 12px;
+            color: var(--gray-500);
+            margin-top: 5px;
+        }
+
+        @media (max-width: 640px) {
+            .card { padding: 32px 24px; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M5 3h6.5a8 8 0 0 1 0 16H5V3zm3.2 3.1v9.8h3.3a4.9 4.9 0 0 0 0-9.8H8.2z"/>
+                        </svg>
+                    </div>
+                    <div class="logo-text">DevScale<span>Bank</span></div>
+                </div>
+
+                {{if .Success}}
+                {{else}}
+                <h1>Create your account</h1>
+                <p>Join DevScale Bank and start managing your finances</p>
+                {{end}}
+            </div>
+
+            {{if .Success}}
+            <div class="success-message">
+                <div class="success-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                </div>
+                <h2>Signup successful</h2>
+                <p>Your account has been created successfully.<br>You can now log in with your credentials.</p>
+                <a href="/" class="btn" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;">Go to Login</a>
+            </div>
+            {{else}}
+            {{if .Error}}
+            <div class="error">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+                <span class="error-text">{{.Error}}</span>
+            </div>
+            {{end}}
+
+            <form method="POST" action="/signup">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first_name">First Name</label>
+                        <input type="text" id="first_name" name="first_name" placeholder="John" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">Last Name</label>
+                        <input type="text" id="last_name" name="last_name" placeholder="Doe" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Choose a username" required minlength="3">
+                    <div class="password-hint">At least 3 characters</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Create a strong password" required minlength="6">
+                    <div class="password-hint">At least 6 characters</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required minlength="6">
+                </div>
+
+                <button type="submit" class="btn">Create Account</button>
+            </form>
+            {{end}}
+
+            <div class="footer">
+                <p>Already have an account? <a href="/">Login here</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
