@@ -1,10 +1,7 @@
 package main
 
 import (
-<<<<<<< HEAD
 	"bufio"
-=======
->>>>>>> main
 	"crypto/rand"
 	"crypto/subtle"
 	"encoding/hex"
@@ -44,7 +41,6 @@ type DashboardData struct {
 	TransferTo       string
 }
 
-<<<<<<< HEAD
 const demoPassword = "welcome+1"
 
 // userProfiles holds the demo account details for every user the roster file
@@ -111,28 +107,6 @@ var userProfiles = map[string]User{
 var (
 	// users holds only the accounts enabled in users.txt; loaded at startup by loadUsers.
 	users = map[string]User{}
-=======
-var (
-	// Hardcoded demo users — in production use a database with bcrypt-hashed passwords
-	users = map[string]User{
-		"dapo": {
-			Username:  "dapo",
-			Password:  "dapo123",
-			FirstName: "Dapo",
-			LastName:  "",
-			Balance:   25430.50,
-			AccountNo: "1234567890",
-		},
-		"janesmith": {
-			Username:  "janesmith",
-			Password:  "secure456",
-			FirstName: "Jane",
-			LastName:  "Smith",
-			Balance:   45820.75,
-			AccountNo: "0987654321",
-		},
-	}
->>>>>>> main
 
 	// Demo recipient accounts for the transfer lookup feature
 	demoAccounts = map[string]string{
@@ -152,7 +126,6 @@ var (
 	appLog *log.Logger
 )
 
-<<<<<<< HEAD
 // loadUsers reads users.txt and enables login for every uncommented username.
 // A line starting with '#' (after trimming whitespace) is disabled; blank
 // lines are ignored. Unknown usernames are skipped with a warning.
@@ -185,8 +158,6 @@ func loadUsers(path string) error {
 	return nil
 }
 
-=======
->>>>>>> main
 // clientIP extracts the requester's address, preferring X-Forwarded-For if set by a proxy
 func clientIP(r *http.Request) string {
 	if fwd := r.Header.Get("X-Forwarded-For"); fwd != "" {
@@ -445,13 +416,10 @@ func logoutHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	appLog = log.New(os.Stdout, "", log.Ldate|log.Ltime)
 
-<<<<<<< HEAD
 	if err := loadUsers("users.txt"); err != nil {
 		log.Fatalf("Failed to load users.txt: %v\nMake sure you run this from the project root directory.", err)
 	}
 
-=======
->>>>>>> main
 	var err error
 	tmpl, err = template.New("").Funcs(template.FuncMap{
 		"initials": initials,
@@ -475,11 +443,7 @@ func main() {
 	fmt.Println("============================================")
 	fmt.Printf("  Server running at http://0.0.0.0%s\n", port)
 	fmt.Println("  Open your browser: http://localhost:8080")
-<<<<<<< HEAD
 	fmt.Println("  Demo login: username is <your username> and password is welcome+1")
-=======
-	fmt.Println("  Demo login: dapo / dapo123")
->>>>>>> main
 	fmt.Println("============================================")
 	log.Fatal(http.ListenAndServe(port, mux))
 }
