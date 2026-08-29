@@ -1317,7 +1317,7 @@
                     <span class="action-btn-arrow">›</span>
                 </button>
 
-                <div class="action-btn" style="cursor:default;">
+                <button class="action-btn" onclick="openStatementModal()">
                     <div class="action-btn-icon gold">
                         <svg viewBox="0 0 24 24">
                             <path
@@ -1326,10 +1326,10 @@
                     </div>
                     <div>
                         <div class="action-btn-label">Account Statement</div>
-                        <div class="action-btn-sub">Demo — coming soon</div>
+                        <div class="action-btn-sub">Click here to get account statement</div>
                     </div>
                     <span class="action-btn-arrow">›</span>
-                </div>
+                </button>
 
                 <div class="action-btn" style="cursor:default;">
                     <div class="action-btn-icon blue">
@@ -1423,6 +1423,78 @@
         </div>
     </div>
 
+    <!-- ========= ACCOUNT STATEMENT MODAL ========= -->
+    <div id="statementModal" class="modal-overlay" onclick="handleStatementOverlayClick(event)">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-header-left">
+                    <div class="modal-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="modal-title">Account Statement</div>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeStatementModal()" aria-label="Close">×</button>
+            </div>
+
+            <div class="modal-body" id="statementModalBody">
+                <div id="statementFormView">
+                    <div class="modal-field">
+                        <label class="modal-label" for="statementFrom">From</label>
+                        <div class="modal-input-wrap">
+                            <span class="modal-input-icon svg-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                                    <line x1="16" y1="2" x2="16" y2="6" />
+                                    <line x1="8" y1="2" x2="8" y2="6" />
+                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                </svg>
+                            </span>
+                            <input type="date" id="statementFrom" class="modal-input" required>
+                        </div>
+                    </div>
+
+                    <div class="modal-field">
+                        <label class="modal-label" for="statementTo">To</label>
+                        <div class="modal-input-wrap">
+                            <span class="modal-input-icon svg-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                                    <line x1="16" y1="2" x2="16" y2="6" />
+                                    <line x1="8" y1="2" x2="8" y2="6" />
+                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                </svg>
+                            </span>
+                            <input type="date" id="statementTo" class="modal-input" required>
+                        </div>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="btn-cancel" onclick="closeStatementModal()">Cancel</button>
+                        <button type="button" class="btn-send" onclick="sendStatement()">Get Statement →</button>
+                    </div>
+                </div>
+
+                <div id="statementSentView" style="display:none; text-align:center; padding: 8px 0 4px;">
+                    <div style="width:56px; height:56px; border-radius:50%; background: var(--success-bg); border:1px solid var(--success-border); display:flex; align-items:center; justify-content:center; margin: 0 auto 18px;">
+                        <svg viewBox="0 0 24 24" style="width:28px; height:28px; fill: var(--success);">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                        </svg>
+                    </div>
+                    <div style="font-size:16px; font-weight:700; color: var(--gray-800); margin-bottom:22px;">
+                        Statement has been sent to your email
+                    </div>
+                    <button type="button" class="btn-send" style="width:100%;" onclick="closeStatementModal()">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Open transfer modal
         function openTransferModal() {
@@ -1445,6 +1517,42 @@
             if (e.target === document.getElementById('transferModal')) {
                 closeTransferModal();
             }
+        }
+
+        // Open account statement modal
+        function openStatementModal() {
+            document.getElementById('statementModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close account statement modal
+        function closeStatementModal() {
+            document.getElementById('statementModal').classList.remove('open');
+            document.body.style.overflow = '';
+            document.getElementById('statementFrom').value = '';
+            document.getElementById('statementTo').value = '';
+            document.getElementById('statementFormView').style.display = '';
+            document.getElementById('statementSentView').style.display = 'none';
+        }
+
+        // Close on overlay click (outside the modal box)
+        function handleStatementOverlayClick(e) {
+            if (e.target === document.getElementById('statementModal')) {
+                closeStatementModal();
+            }
+        }
+
+        // Demo-only: pretend to send the statement to the user's email
+        function sendStatement() {
+            var from = document.getElementById('statementFrom');
+            var to = document.getElementById('statementTo');
+            if (!from.value || !to.value) {
+                from.reportValidity();
+                to.reportValidity();
+                return;
+            }
+            document.getElementById('statementFormView').style.display = 'none';
+            document.getElementById('statementSentView').style.display = '';
         }
 
         // Reset recipient display
