@@ -1,0 +1,15 @@
+# DevScale Bank — demo user roster
+#
+# One username per line. Uncomment a line (remove the leading #) to allow
+# that user to log in. Every enabled user logs in with password: welcome+1
+#
+# Example: to let "fisayo" log in, change "# fisayo" to "fisayo" below
+# and restart the app.
+
+# iyiola
+# juwon
+# abayomi
+# chimezie
+# peter
+# fisayo
+dapo

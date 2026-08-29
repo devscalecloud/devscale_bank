@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"crypto/rand"
 	"crypto/subtle"
 	"encoding/hex"
@@ -40,26 +41,72 @@ type DashboardData struct {
 	TransferTo       string
 }
 
+const demoPassword = "welcome+1"
+
+// userProfiles holds the demo account details for every user the roster file
+// (users.txt) can enable. Password for all of them is demoPassword.
+var userProfiles = map[string]User{
+	"iyiola": {
+		Username:  "iyiola",
+		Password:  demoPassword,
+		FirstName: "Iyiola",
+		LastName:  "Olakunle Olapeju",
+		Balance:   18230.15,
+		AccountNo: "1122334455",
+	},
+	"juwon": {
+		Username:  "juwon",
+		Password:  demoPassword,
+		FirstName: "Juwon",
+		LastName:  "",
+		Balance:   9870.40,
+		AccountNo: "2233445566",
+	},
+	"abayomi": {
+		Username:  "abayomi",
+		Password:  demoPassword,
+		FirstName: "Abayomi",
+		LastName:  "Akinyemi",
+		Balance:   32110.00,
+		AccountNo: "9988776655",
+	},
+	"chimezie": {
+		Username:  "chimezie",
+		Password:  demoPassword,
+		FirstName: "Chimezie",
+		LastName:  "Ogbu",
+		Balance:   5420.65,
+		AccountNo: "3344556677",
+	},
+	"peter": {
+		Username:  "peter",
+		Password:  demoPassword,
+		FirstName: "Peter",
+		LastName:  "",
+		Balance:   14300.90,
+		AccountNo: "4455667788",
+	},
+	"fisayo": {
+		Username:  "fisayo",
+		Password:  demoPassword,
+		FirstName: "Faboya",
+		LastName:  "Fisayo",
+		Balance:   27650.30,
+		AccountNo: "7766554433",
+	},
+	"dapo": {
+		Username:  "dapo",
+		Password:  demoPassword,
+		FirstName: "Dapo",
+		LastName:  "",
+		Balance:   25430.50,
+		AccountNo: "1234567890",
+	},
+}
+
 var (
-	// Hardcoded demo users — in production use a database with bcrypt-hashed passwords
-	users = map[string]User{
-		"dapo": {
-			Username:  "dapo",
-			Password:  "dapo123",
-			FirstName: "Dapo",
-			LastName:  "",
-			Balance:   25430.50,
-			AccountNo: "1234567890",
-		},
-		"janesmith": {
-			Username:  "janesmith",
-			Password:  "secure456",
-			FirstName: "Jane",
-			LastName:  "Smith",
-			Balance:   45820.75,
-			AccountNo: "0987654321",
-		},
-	}
+	// users holds only the accounts enabled in users.txt; loaded at startup by loadUsers.
+	users = map[string]User{}
 
 	// Demo recipient accounts for the transfer lookup feature
 	demoAccounts = map[string]string{
@@ -78,6 +125,38 @@ var (
 	// appLog records banking events (login, logout, transfer, signup) to app.log and stdout
 	appLog *log.Logger
 )
+
+// loadUsers reads users.txt and enables login for every uncommented username.
+// A line starting with '#' (after trimming whitespace) is disabled; blank
+// lines are ignored. Unknown usernames are skipped with a warning.
+func loadUsers(path string) error {
+	f, err := os.Open(path)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	enabled := map[string]User{}
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+		if line == "" || strings.HasPrefix(line, "#") {
+			continue
+		}
+		profile, ok := userProfiles[strings.ToLower(line)]
+		if !ok {
+			log.Printf("users.txt: unknown username %q, skipping", line)
+			continue
+		}
+		enabled[profile.Username] = profile
+	}
+	if err := scanner.Err(); err != nil {
+		return err
+	}
+
+	users = enabled
+	return nil
+}
 
 // clientIP extracts the requester's address, preferring X-Forwarded-For if set by a proxy
 func clientIP(r *http.Request) string {
@@ -337,6 +416,10 @@ func logoutHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	appLog = log.New(os.Stdout, "", log.Ldate|log.Ltime)
 
+	if err := loadUsers("users.txt"); err != nil {
+		log.Fatalf("Failed to load users.txt: %v\nMake sure you run this from the project root directory.", err)
+	}
+
 	var err error
 	tmpl, err = template.New("").Funcs(template.FuncMap{
 		"initials": initials,
@@ -360,7 +443,7 @@ func main() {
 	fmt.Println("============================================")
 	fmt.Printf("  Server running at http://0.0.0.0%s\n", port)
 	fmt.Println("  Open your browser: http://localhost:8080")
-	fmt.Println("  Demo login: dapo / dapo123")
+	fmt.Println("  Demo login: username is <your username> and password is welcome+1")
 	fmt.Println("============================================")
 	log.Fatal(http.ListenAndServe(port, mux))
 }
